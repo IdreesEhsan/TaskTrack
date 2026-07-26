@@ -17,6 +17,7 @@ export default function Login() {
     return (
         <div className="auth-container">
             <form className="auth-form" onSubmit={handleSubmmit}>
+                <h1 className="app-title">TaskTrack</h1>
                 <h2>Log In</h2>
                 {error && <p className="error">{error}</p>}
                 <input
