@@ -33,7 +33,7 @@ TaskTrack/
 ```bash
 cd backend
 npm install
-cp .env.example .env   # fill in your own values, see table below
+cp .env   # fill in your own values, see table below
 npm run dev             # starts on http://localhost:5000
 ```
 
@@ -41,7 +41,7 @@ npm run dev             # starts on http://localhost:5000
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # set VITE_API_URL if your API isn't on localhost:5000
+cp .env   # set VITE_API_URL if your API isn't on localhost:5000
 npm run dev              # starts on http://localhost:5173
 ```
 
