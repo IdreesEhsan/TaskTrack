@@ -1,22 +1,22 @@
 // Base URL of our backend API
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-// One shared helper function for every API call, built on the browers native fetch()
+// One shared helper function for every API call, built on the browser's native fetch()
 async function request(endpoint, options = {}) {
-    
+
     const token = localStorage.getItem('token');
 
     const headers = {
-        'Content-type': "application/json",
+        'Content-Type': 'application/json',
         ...options.headers,
     };
 
-    // Attach the token as Bearer heaader so the backend's auth middleware can identify the logged-in user.
+    // Attach the token as Bearer header so the backend's auth middleware can identify the logged-in user.
     if (token) {
-        headers.Authorization = 'Bearer ${token}';
+        headers.Authorization = `Bearer ${token}`;
     }
 
-    const res = await fetch ('${BASE_URL}${endpoint}', {
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
         ...options,
         headers,
     });
@@ -48,7 +48,7 @@ async function request(endpoint, options = {}) {
 // Small wrapper functions, one per HTTP verb (REST conventions)
 export const api = {
     get: (endpoint) => request(endpoint, { method: 'GET' }),
-    post: (endpoint) => request(endpoint, { method: 'POST', body: JSON.stringify(body) }),
+    post: (endpoint, body) => request(endpoint, { method: 'POST', body: JSON.stringify(body) }),
     put: (endpoint, body) => request(endpoint, { method: 'PUT', body: JSON.stringify(body) }),
     delete: (endpoint) => request(endpoint, { method: 'DELETE' }),
 };
