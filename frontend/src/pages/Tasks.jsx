@@ -11,13 +11,11 @@ export default function Tasks() {
     const [error, setError] = useState('');
     const [editingTask, setEditingTask] = useState(null);
 
-    // Fetches all tasks belonging to the logged-in user
-    // (the backend identifies "who" from the JWT — no user id sent here).
     const fetchTasks = async () => {
         setLoading(true);
         setError('');
         try {
-            const data = await api.get('/tasks'); // GET /api/tasks
+            const data = await api.get('/tasks');
             setTasks(data);
         } catch (err) {
             setError(err.message || 'Failed to load tasks');
@@ -26,25 +24,23 @@ export default function Tasks() {
         }
     };
 
-    // useEffect - run once when the component mounts
     useEffect(() => {
         fetchTasks();
     }, []);
 
-    // Handles both create and update - TaskForm calls this either way.
     const handleCreateOrUpdate = async (form) => {
         setError('');
         try {
             if (editingTask) {
-                const data = await api.put('/tasks${editingTask._id}', form);
+                const data = await api.put(`/tasks/${editingTask._id}`, form);
                 setTasks(tasks.map((t) => (t._id === data._id ? data : t)));
                 setEditingTask(null);
             } else {
-                const  data = await api.post('tasks', form);
+                const data = await api.post('/tasks', form);
                 setTasks([data, ...tasks]);
             }
         } catch (err) {
-            setError(err.message || 'could not save task');
+            setError(err.message || 'Could not save task');
         }
     };
 
@@ -52,7 +48,7 @@ export default function Tasks() {
         if (!confirm('Delete this task?')) return;
         setError('');
         try {
-            await api.delete('/tasks/${id}');
+            await api.delete(`/tasks/${id}`);
             setTasks(tasks.filter((t) => t._id !== id));
         } catch (err) {
             setError(err.message || 'Could not delete task');
@@ -79,10 +75,9 @@ export default function Tasks() {
 
             {error && <p className="error">{error}</p>}
 
-            {/* Three UI states: loading / empty / list */}
             {loading ? (
                 <p>Loading tasks...</p>
-            ) : tasks.length === 0 ?(
+            ) : tasks.length === 0 ? (
                 <p>No tasks yet. Add your first one above.</p>
             ) : (
                 <div className="task-list">
@@ -92,7 +87,7 @@ export default function Tasks() {
                             task={task}
                             onEdit={setEditingTask}
                             onDelete={handleDelete}
-                            />
+                        />
                     ))}
                 </div>
             )}
